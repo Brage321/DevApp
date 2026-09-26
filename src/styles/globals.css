@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------ */
+/* Kloa.lol design tokens — single source of truth. Components should  */
+/* consume these variables / Tailwind mappings instead of raw values.  */
+/* ------------------------------------------------------------------ */
+@layer base {
+  :root {
+    /* Surfaces */
+    --bg-0: #050505;
+    --bg-1: #0a0a0a;
+    --bg-2: #111111;
+    --bg-3: #181818;
+
+    /* Accents */
+    --accent: #8b5cf6;
+    --accent-soft: #a78bfa;
+    --accent-deep: #6d28d9;
+    --violet: #7c5cff;
+    --purple: #a855f7;
+    --blue: #3b82f6;
+
+    /* Text */
+    --text-hi: #ededf2;
+    --text-mid: #a0a0ae;
+    --text-low: #60606e;
+
+    /* Lines & effects */
+    --line: rgba(255, 255, 255, 0.08);
+    --line-strong: rgba(255, 255, 255, 0.14);
+    --glow: rgba(124, 92, 255, 0.35);
+
+    /* Typography */
+    --font-display: 'Space Grotesk', Inter, system-ui, sans-serif;
+    --font-sans: Inter, system-ui, -apple-system, sans-serif;
+
+    /* Shape & motion */
+    --radius-card: 1.25rem;
+    --radius-pill: 999px;
+    --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+    --dur-fast: 150ms;
+    --dur-med: 300ms;
+    --dur-slow: 600ms;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    color-scheme: dark;
+  }
+
+  body {
+    @apply bg-bg0 font-sans text-ink antialiased;
+    text-rendering: optimizeLegibility;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgba(139, 92, 246, 0.35);
+    color: #fff;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--accent-soft);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /* Slim dark scrollbar */
+  * {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.14) transparent;
+  }
+  *::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  *::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.12);
+    border-radius: 8px;
+  }
+  *::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.2);
+  }
+  *::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Frosted glass surface */
+  .glass {
+    @apply border border-line bg-white/[0.04] backdrop-blur-xl;
+  }
+  .glass-strong {
+    @apply border border-line-strong bg-white/[0.07] backdrop-blur-2xl;
+  }
+
+  /* Gradient text used for highlights */
+  .text-gradient {
+    @apply bg-gradient-to-r from-violet-400 via-fuchsia-400 to-blue-400 bg-clip-text text-transparent;
+  }
+
+  /* Film grain overlay (pure CSS/SVG — no requests) */
+  .noise {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 140px 140px;
+  }
+
+  /* Subtle dotted grid for hero/section backgrounds */
+  .grid-pattern {
+    background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
+    background-size: 26px 26px;
+  }
+
+  /* Standard form input */
+  .input-base {
+    @apply w-full rounded-xl border border-line bg-white/[0.03] px-3.5 py-2.5 text-sm text-ink placeholder:text-ink-faint transition-colors duration-200 focus:border-accent/60 focus:bg-white/[0.05] focus:outline-none;
+  }
+
+  /* Shimmering skeleton */
+  .skeleton {
+    @apply relative overflow-hidden rounded-xl bg-white/[0.05];
+  }
+  .skeleton::after {
+    content: '';
+    @apply absolute inset-0 animate-shimmer;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.06), transparent);
+    background-size: 200% 100%;
+  }
+
+  /* Interactive card lift */
+  .card-hover {
+    @apply transition-all duration-300 ease-out-expo hover:-translate-y-1 hover:border-line-strong hover:shadow-card;
+  }
+
+  /* Horizontal marquee edge fade */
+  .marquee-mask {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+}
